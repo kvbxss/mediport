@@ -1,7 +1,7 @@
 import { Tag } from "@/interfaces";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -21,7 +21,7 @@ export const columns: ColumnDef<Tag>[] = [
     },
   },
   {
-    header: "Count",
     accessorKey: "count",
+    header: "Count",
   },
 ];
