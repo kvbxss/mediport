@@ -16,8 +16,3 @@ export interface Tag {
   name: string;
   count: number;
 }
-
-export interface RelatedPost {
-  title: string;
-  link: string;
-}

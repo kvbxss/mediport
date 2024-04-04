@@ -1,5 +1,5 @@
 import { useGetTagsQuery } from "@/service/tagsApi";
-import { Loader } from "./Loader";
+import Loader from "./Loader";
 import { columns } from "./table/Columns";
 import { DataTable } from "./table/Table";
 import { z } from "zod";

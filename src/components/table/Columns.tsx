@@ -1,7 +1,7 @@
 import { Tag } from "@/interfaces";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 

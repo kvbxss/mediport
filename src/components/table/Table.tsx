@@ -9,6 +9,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  PaginationState,
 } from "@tanstack/react-table";
 
 import {
@@ -29,10 +30,13 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 40,
+  });
 
   const table = useReactTable({
     data,
@@ -43,9 +47,11 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
+      pagination,
     },
   });
 
@@ -62,14 +68,36 @@ export function DataTable<TData, TValue>({
         />
       </div>
       <div className=" py-2 px-2">
-        <Button variant="outline" className="ml-auto">
-          100
+        <h2 className="font-bold ">Display</h2>
+        <Button
+          variant="outline"
+          className="ml-auto"
+          value={table.getState().pagination.pageSize}
+          onClick={() => {
+            table.setPageSize(40);
+          }}
+        >
+          40
         </Button>
-        <Button variant="outline" className="ml-auto">
-          50
+        <Button
+          variant="outline"
+          className="ml-auto"
+          value={table.getState().pagination.pageSize}
+          onClick={() => {
+            table.setPageSize(20);
+          }}
+        >
+          20
         </Button>
-        <Button variant="outline" className="ml-auto">
-          25
+        <Button
+          variant="outline"
+          className="ml-auto"
+          value={table.getState().pagination.pageSize}
+          onClick={() => {
+            table.setPageSize(10);
+          }}
+        >
+          10
         </Button>
       </div>
       <div className="rounded-md border">
