@@ -3,8 +3,8 @@ import Loader from "./Loader";
 import { columns } from "./table/Columns";
 import { DataTable } from "./table/Table";
 import { z } from "zod";
-import { Tag } from "@/interfaces";
 import ErrorDisplay from "./ErrorDisplayer";
+import { Tag } from "@/interfaces";
 
 const tagArraySchema = z.array(
   z.object({
@@ -12,6 +12,7 @@ const tagArraySchema = z.array(
     count: z.number(),
   })
 );
+
 const Page = () => {
   const { data, error, isLoading } = useGetTagsQuery();
 
@@ -20,19 +21,20 @@ const Page = () => {
   if (isLoading) {
     return <Loader />;
   }
-
-  const simplifiedData: Tag[] = data?.items.map(({ name, count }) => ({
-    name,
-    count,
-  }));
+  const simplifiedData: Tag[] = data?.items;
 
   if (error || !tagArraySchema.safeParse(simplifiedData)) {
-    return <ErrorDisplay />;
+    return (
+      <ErrorDisplay
+        error={error as Error}
+        titleMessage="with fetching the data"
+      />
+    );
   }
 
   return (
     <div className="container py-10 mx-auto">
-      <h1 className="mb-6 text-3xl font-bold">Tags</h1>
+      <h1 className="mb-6 text-4xl font-bold">Tags</h1>
       <DataTable columns={columns} data={simplifiedData} />
     </div>
   );

@@ -67,11 +67,11 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
       </div>
-      <div className=" py-2 px-2">
-        <h2 className="font-bold ">Display</h2>
+      <div className="py-2 px-2">
+        <h2 className="font-bold text-xl">Display</h2>
         <Button
           variant="outline"
-          className="ml-auto"
+          className="ml-auto my-2 mx-1"
           value={table.getState().pagination.pageSize}
           onClick={() => {
             table.setPageSize(40);
@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
         </Button>
         <Button
           variant="outline"
-          className="ml-auto"
+          className="ml-auto my-2 mx-1"
           value={table.getState().pagination.pageSize}
           onClick={() => {
             table.setPageSize(20);
@@ -91,7 +91,7 @@ export function DataTable<TData, TValue>({
         </Button>
         <Button
           variant="outline"
-          className="ml-auto"
+          className="ml-auto my-2 mx-1"
           value={table.getState().pagination.pageSize}
           onClick={() => {
             table.setPageSize(10);
@@ -149,11 +149,13 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex items-center justify-end space-x-2 py-4 px-4">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
+            onClick={() => {
+              table.previousPage();
+            }}
             disabled={!table.getCanPreviousPage()}
           >
             Previous
@@ -161,7 +163,9 @@ export function DataTable<TData, TValue>({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
+            onClick={() => {
+              table.nextPage();
+            }}
             disabled={!table.getCanNextPage()}
           >
             Next

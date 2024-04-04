@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Response } from "@/interfaces";
 
 const baseUrl = "https://api.stackexchange.com/2.3/";
+
+const createRequest = (url: string) => ({ url });
 
 export const tagsApi = createApi({
   reducerPath: "tagsApi",
@@ -9,12 +10,10 @@ export const tagsApi = createApi({
   tagTypes: ["Tags"],
   endpoints: (build) => ({
     getTags: build.query<Response[], void>({
-      query: () => ({
-        url: "tags",
-        params: {
-          site: "stackoverflow",
-        },
-      }),
+      query: () =>
+        createRequest(
+          `/tags?&pagesize=40&order=desc&sort=popular&site=stackoverflow&filter=!21k7qaosV)V8y5XPlOTVE`
+        ),
     }),
   }),
 });

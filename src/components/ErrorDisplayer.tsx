@@ -6,7 +6,12 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const ErrorDisplay = ({ error }: Props) => {
+type Props = {
+  titleMessage: string;
+  error: string | Error;
+};
+
+const ErrorDisplay = ({ error, titleMessage }: Props) => {
   if (error instanceof Error) {
     return (
       <Wrapper>
@@ -28,7 +33,7 @@ const ErrorDisplay = ({ error }: Props) => {
   return (
     <Wrapper>
       <h1 className="text-xl font-semibold">There was an error</h1>
-      <p className="text-xs">Something went wrong</p>
+      <p className="text-xs">{titleMessage}</p>
     </Wrapper>
   );
 };
