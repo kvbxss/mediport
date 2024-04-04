@@ -9,7 +9,6 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  PaginationState,
 } from "@tanstack/react-table";
 
 import {
@@ -28,33 +27,38 @@ import { Button } from "../ui/button";
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+  onPageChange,
+  maxRowCount,
+}: DataTableProps<TData, TValue> & {
+  onPageChange: (pageIndex: number) => void;
+  maxRowCount: number;
+}) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 40,
-  });
 
   const table = useReactTable({
     data,
     columns,
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onPaginationChange: setPagination,
+    rowCount: maxRowCount,
+    autoResetPageIndex: false,
     state: {
       sorting,
       columnFilters,
-      pagination,
     },
   });
-
+  console.log(maxRowCount);
+  console.log(table.getState().pagination.pageIndex);
+  console.log(table.getState().pagination.pageSize);
+  console.log(table.getPageCount());
   return (
     <>
       <div className="flex items-center py-4">
@@ -150,11 +154,15 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
         <div className="flex items-center justify-end space-x-2 py-4 px-4">
+          <h1 className="text-md font-bold px-2">
+            Page {table.getState().pagination.pageIndex}
+          </h1>
           <Button
             variant="outline"
             size="sm"
             onClick={() => {
               table.previousPage();
+              onPageChange(table.getState().pagination.pageIndex);
             }}
             disabled={!table.getCanPreviousPage()}
           >
@@ -165,6 +173,8 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => {
               table.nextPage();
+              onPageChange(table.getState().pagination.pageIndex);
+              console.log(table.getState().pagination.pageIndex);
             }}
             disabled={!table.getCanNextPage()}
           >

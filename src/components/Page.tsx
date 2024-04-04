@@ -5,6 +5,7 @@ import { DataTable } from "./table/Table";
 import { z } from "zod";
 import ErrorDisplay from "./ErrorDisplayer";
 import { Tag } from "@/interfaces";
+import { useState } from "react";
 
 const tagArraySchema = z.array(
   z.object({
@@ -14,8 +15,11 @@ const tagArraySchema = z.array(
 );
 
 const Page = () => {
-  const { data, error, isLoading } = useGetTagsQuery();
+  const [pageNumber, setPageNumber] = useState(1);
 
+  const { data, error, isLoading } = useGetTagsQuery(pageNumber);
+
+  console.log(pageNumber);
   console.log(data);
 
   if (isLoading) {
@@ -25,9 +29,24 @@ const Page = () => {
 
   if (error || !tagArraySchema.safeParse(simplifiedData)) {
     return (
+      <ErrorDisplay error={error as Error} titleMessage="With the data type" />
+    );
+  }
+
+  if (pageNumber < 0) {
+    return (
       <ErrorDisplay
-        error={error as Error}
-        titleMessage="with fetching the data"
+        error={error as unknown as Error}
+        titleMessage="Page Number can't be below zero."
+      />
+    );
+  }
+
+  if (simplifiedData.length == 0) {
+    return (
+      <ErrorDisplay
+        error={error as unknown as Error}
+        titleMessage="With fetching the data."
       />
     );
   }
@@ -35,7 +54,12 @@ const Page = () => {
   return (
     <div className="container py-10 mx-auto">
       <h1 className="mb-6 text-4xl font-bold">Tags</h1>
-      <DataTable columns={columns} data={simplifiedData} />
+      <DataTable
+        columns={columns}
+        data={simplifiedData}
+        maxRowCount={data.total}
+        onPageChange={(pageNumber) => setPageNumber(pageNumber)}
+      />
     </div>
   );
 };

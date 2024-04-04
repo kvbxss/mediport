@@ -9,10 +9,10 @@ export const tagsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ["Tags"],
   endpoints: (build) => ({
-    getTags: build.query<Response[], void>({
-      query: () =>
+    getTags: build.query({
+      query: (page) =>
         createRequest(
-          `/tags?&pagesize=40&order=desc&sort=popular&site=stackoverflow&filter=!21k7qaosV)V8y5XPlOTVE`
+          `/tags?page=${page + 1}&pagesize=40&order=desc&sort=popular&site=stackoverflow&filter=!21k7qaosV)V8y5XPlOTVE`
         ),
     }),
   }),
